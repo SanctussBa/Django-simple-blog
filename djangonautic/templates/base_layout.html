@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Djangonauts</title>
+    <link rel="stylesheet" href="{% static 'styles.css'%}">
+  </head>
+  <body>
+    <header class="wrapper">
+      <h1><a href="{% url 'home' %}"><img src="{% static 'logo.png'%}" alt=""></a></h1>
+      <nav>
+        <ul>
+          {% if user.is_authenticated %}
+          <li>
+            <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" name="Logout">Logout</button>
+            </form>
+          </li>
+          <li><a href="{% url 'articles:create' %}" class="highlight">New Article</a></li>
+          {% else %}
+          <li><a href="{% url 'accounts:login' %}">Log In</a></li>
+          <li><a href="{% url 'accounts:signup' %}">Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </header>
+    <div class="wrapper">
+      {%  block content %}
+      <!-- here will go block called 'content' -->
+      {% endblock %}
+    </div>
+  </body>
+</html>
